@@ -52,7 +52,7 @@ class buffer:
 	    self.data = None
 	    self.format = None
 	    
-	    self.params = {
+	    self.prop = {
 	        "nchannels" : None,
 	        "framerate" : None,
 	        "nframes"   : None,
@@ -83,15 +83,16 @@ class buffer:
                 wobj = wave.open(file)
                 wtup = wobj.getparams()
                 
-                self.params["nchannels"]  = wtup[0]
-                self.params["sampwidth"]  = wtup[1]
-                self.params["framerate"]  = wtup[2]
-                self.params["nframes"]    = wtup[3]
+                self.prop["nchannels"]    = wtup[0]
+                self.prop["sampwidth"]    = wtup[1]
+                self.prop["framerate"]    = wtup[2]
+                self.prop["nframes"]      = wtup[3]
+                self.prop["duration"]     = self.prop["nframes"] / float(self.prop["framerate"])
                 
-                fdata = wobj.readframes(self.params["nframes"])
-                ndat = wav.bytes_to_array(self.params, fdata)
+                fdata = wobj.readframes(self.prop["nframes"])
+                ndat = wav.bytes_to_array(self.prop, fdata)
                 
-                self.data = ndat[:, 0].reshape(-1)
+                self.data = ndat.reshape(-1, self.prop["nchannels"])
                 
             except wave.Error:
                 raise
@@ -109,5 +110,5 @@ class buffer:
         else:
             pass
             
-        log.debug(self.params)
+        log.debug(self.prop)
         
