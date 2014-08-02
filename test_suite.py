@@ -16,7 +16,7 @@ along with AudioPy.  If not, see <http://www.gnu.org/licenses/>."""
 import unittest as ut
 
 import logging
-log = logging.getLogger("aplog")
+log = logging.getLogger("ap")
 log.setLevel(logging.DEBUG)
 
 import tests.file_read
