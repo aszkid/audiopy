@@ -7,9 +7,10 @@ buff = ap.buffer()
 buff.read_file("tests/bach_kibbie.wav")
 
 import pylab as p
+import time
 
-t1 = buff.prop["framerate"] * 0
-t2 = t1 + buff.prop["framerate"] * 10
+t1 = buff.frame_count(0)
+t2 = buff.frame_count(10)
 p.plot(buff.data[t1:t2, 0])
 p.plot(buff.data[t1:t2, 1])
-p.show()
+p.savefig("{0}.png".format(time.time()))

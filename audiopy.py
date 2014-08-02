@@ -14,7 +14,6 @@ You should have received a copy of the GNU General Public License
 along with AudioPy.  If not, see <http://www.gnu.org/licenses/>."""
 
 import wave
-import scipy.io.wavfile
 import logging
 logging.basicConfig()
 log = logging.getLogger("ap")
@@ -41,7 +40,6 @@ def guess_format_ext(name):
         return formats_ext[ext]
     else:
         return None
-
 def guess_format_dat(file):
     # try to do this somehow
     return None
@@ -58,6 +56,9 @@ class buffer:
 	        "nframes"   : None,
 	        "sampwidth" : None
 	    }
+    
+    def frame_count(self, t):
+        return self.prop["framerate"] * t
     
     def read_file(self, filename, format=None):
         file = None
@@ -95,13 +96,6 @@ class buffer:
                 self.data = ndat.reshape(-1, self.prop["nchannels"])
                 
             except wave.Error:
-                raise
-            try:
-                rate, data = scipy.io.wavfile.read(filename)
-                
-                log.debug("data shape (scipy): %s", data.shape)
-                
-            except:
                 raise
         elif self.format == FLAC:
             pass
