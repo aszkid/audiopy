@@ -15,6 +15,7 @@ along with AudioPy.  If not, see <http://www.gnu.org/licenses/>."""
 
 import wave
 import scipy.io.wavfile
+import pylab
 import logging
 logging.basicConfig()
 log = logging.getLogger("ap")
@@ -92,6 +93,12 @@ class buffer:
                 
                 nfile = open("new.wav", 'w')
                 ndat = wav.bytes_to_array(self.params, self.data)
+                
+                for e in ndat[500:580]:
+                    nfile.write("{0},{1}\n".format(e[0], e[1]))
+                
+                mono = ndat[:, 0].reshape(-1)
+                
                 
             except wave.Error:
                 raise
