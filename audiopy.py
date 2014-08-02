@@ -18,10 +18,9 @@ logging.basicConfig()
 log = logging.getLogger("aplog")
 
 class buffer:
-	
-	def read_file(self, filename):
-		try:
-			file = open(filename, 'rb')
-			log.debug("Opened file '%s'.", filename)
-		except IOError:
-			raise
+    def read_file(self, filename):
+        try:
+            file = open(filename, 'rb')
+            log.debug("Opened file '%s'.", filename)
+        except IOError:
+            raise

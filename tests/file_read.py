@@ -18,13 +18,12 @@ import unittest as ut
 import audiopy as ap
 
 class read_various(ut.TestCase):
- 
     def setUp(self):
         pass
- 
+
     def test1(self):
-		mybuff = ap.buffer()
-		self.assertRaises(IOError, mybuff.read_file, "tests/fakefile.wav")
+        mybuff = ap.buffer()
+        self.assertRaises(IOError, mybuff.read_file, "tests/fakefile.wav")
 
 if __name__ == "__main__":
-	ut.main()
+    ut.main()
