@@ -9,3 +9,5 @@ build/*
 /iotools/wav_c.so
 /iotools/wav_c.c
 *.profile
+/tests/bach_kibbie_re.wav
+/tests/full_bach_re.wav
