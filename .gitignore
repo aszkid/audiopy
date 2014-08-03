@@ -2,3 +2,5 @@
 *.pyc
 *.bak
 *.ipynb
+/tests/full_bach.mp3
+/tests/full_bach.wav
