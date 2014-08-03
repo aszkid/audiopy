@@ -75,7 +75,7 @@ class buffer:
                 'NONE', 'not compressed')
             wobj.setparams(wtup)
             
-            chunk_s = 8192
+            chunk_s = 16384
             chunk = [None]*(chunk_s*self.prop["nchannels"])
             chunk_c, rem = divmod(self.prop["nframes"], chunk_s)
             log.debug("writing %i chunks of %i frames + %i remaining frames", chunk_c, chunk_s, rem)
