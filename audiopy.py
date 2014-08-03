@@ -75,7 +75,7 @@ class buffer:
                 'NONE', 'not compressed')
             wobj.setparams(wtup)
             
-            chunk_s = 4096
+            chunk_s = 8192
             chunk = [None]*(chunk_s*self.prop["nchannels"])
             chunk_c, rem = divmod(self.prop["nframes"], chunk_s)
             log.debug("writing %i chunks of %i frames + %i remaining frames", chunk_c, chunk_s, rem)
@@ -83,7 +83,7 @@ class buffer:
             ch = 'c' if self.prop["sampwidth"] == 1 else 'h'
             form = '<{0}'.format(ch)
             
-            """for chunk_i in xrange(0, chunk_c):
+            for chunk_i in xrange(0, chunk_c):
                 for frame_i in xrange(0, chunk_s):
                     i = chunk_i * chunk_s + frame_i
                     for chann_i in xrange(0, self.prop["nchannels"]):
@@ -95,14 +95,13 @@ class buffer:
                 i = chunk_c * chunk_s + frame_i
                 for chann_i in xrange(0, self.prop["nchannels"]):
                         chunk[frame_i*2 + chann_i] = struct.pack(form, self.data[i][chann_i])
-            wobj.writeframes(''.join(chunk))"""
+            wobj.writeframes(''.join(chunk))
             
-            buff = [None]*(self.prop["nframes"]*self.prop["nchannels"])
-            
+            """buff = [None]*(self.prop["nframes"]*self.prop["nchannels"])
             for fi in xrange(0, self.prop["nframes"]):
                 for ci in xrange(0, self.prop["nchannels"]):
                     buff[fi*2+ci] = struct.pack(form, self.data[fi][ci])
-            wobj.writeframes(''.join(buff))
+            wobj.writeframes(''.join(buff))"""
             
         elif self.format == FLAC:
             pass
