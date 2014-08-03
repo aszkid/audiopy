@@ -48,16 +48,16 @@ def guess_format_dat(file):
 class buffer:
 
     def __init__(self):
-	    self.data = None
-	    self.format = None
-	    
-	    self.prop = {
-	        "nchannels" : None,
-	        "framerate" : None,
-	        "nframes"   : None,
-	        "sampwidth" : None
-	    }
-    
+        self.data = None
+        self.format = None
+
+        self.prop = {
+            "nchannels" : None,
+            "framerate" : None,
+            "nframes"   : None,
+            "sampwidth" : None
+        }
+
     def frame_count(self, t):
         return self.prop["framerate"] * t
     

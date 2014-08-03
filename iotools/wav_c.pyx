@@ -18,7 +18,7 @@ import wave
 import numpy as np
 cimport numpy as np
 
-def _populate_chunk(int fbeg, int fend, int indexbeg, int chbeg, int chend, data, chunk):
+cdef void _populate_chunk(int fbeg, int fend, int indexbeg, int chbeg, int chend, data, np.ndarray chunk):
     cdef int chind = (chend-chbeg)
     cdef int i, fcind
     for frame_i from fbeg <= frame_i < fend:

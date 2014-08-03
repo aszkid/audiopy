@@ -17,7 +17,6 @@ import numpy as np
 import logging
 log = logging.getLogger("ap.iotools.wav")
 import wave
-import struct
 
 import misc
 import wav_c
