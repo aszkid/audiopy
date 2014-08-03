@@ -30,18 +30,11 @@ def write(file, prop, data):
     wobj.setparams(wtup)
     
     chunk_s = 16384
-    chunk = [None]*(chunk_s*prop["nchannels"])
     chunk_c, rem = divmod(prop["nframes"], chunk_s)
     log.debug("writing %i chunks of %i frames + %i remaining frames", chunk_c, chunk_s, rem)
     
     ch = 'c' if prop["sampwidth"] == 1 else 'h'
     form = '<{0}'.format(ch)
     
-    for chunk_i in xrange(0, chunk_c):
-        wav_c._populate_chunk(0, chunk_s, chunk_i*chunk_s, 0, prop["nchannels"], form, data, chunk)
-        wobj.writeframes(''.join(chunk))
-    
-    chunk = [None]*(rem*prop["nchannels"])
-    wav_c._populate_chunk(0, rem, chunk_c*chunk_s, 0, prop["nchannels"], form, data, chunk)
-    wobj.writeframes(''.join(chunk))
+    wav_c.write_chunks(chunk_c, chunk_s, rem, form, data, prop, wobj)
                 
