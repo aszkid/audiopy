@@ -6,3 +6,6 @@
 /tests/full_bach.wav
 .idea/*
 build/*
+/iotools/wav_c.so
+/iotools/wav_c.c
+*.profile
