@@ -19,7 +19,7 @@ import logging
 logging.basicConfig()
 log = logging.getLogger("ap")
 
-from readtools import wav
+from iotools import misc
 
 WAV     = 1
 FLAC    = 2
@@ -68,34 +68,11 @@ class buffer:
             raise
         
         if self.format == WAV:
-            
-            wobj = wave.open(file)
-            wtup = (self.prop["nchannels"], self.prop["sampwidth"],
-                self.prop["framerate"], self.prop["nframes"],
-                'NONE', 'not compressed')
-            wobj.setparams(wtup)
-            
-            chunk_s = 16384
-            chunk = [None]*(chunk_s*self.prop["nchannels"])
-            chunk_c, rem = divmod(self.prop["nframes"], chunk_s)
-            log.debug("writing %i chunks of %i frames + %i remaining frames", chunk_c, chunk_s, rem)
-            
-            ch = 'c' if self.prop["sampwidth"] == 1 else 'h'
-            form = '<{0}'.format(ch)
-            
-            for chunk_i in xrange(0, chunk_c):
-                for frame_i in xrange(0, chunk_s):
-                    i = chunk_i * chunk_s + frame_i
-                    for chann_i in xrange(0, self.prop["nchannels"]):
-                        chunk[frame_i*2 + chann_i] = struct.pack(form, self.data[i][chann_i])
-                wobj.writeframes(''.join(chunk))
-            
-            chunk = [None]*(rem*self.prop["nchannels"])
-            for frame_i in xrange(0, rem):
-                i = chunk_c * chunk_s + frame_i
-                for chann_i in xrange(0, self.prop["nchannels"]):
-                        chunk[frame_i*2 + chann_i] = struct.pack(form, self.data[i][chann_i])
-            wobj.writeframes(''.join(chunk))
+            import iotools.wav
+            try:
+                iotools.wav.write(file, self.prop, self.data)
+            except:
+                raise
             
         elif self.format == FLAC:
             pass
@@ -124,21 +101,12 @@ class buffer:
         log.debug("Opened file '%s', format '%i'.", filename, self.format)
         
         if self.format == WAV:
+            import iotools.wav
             try:
-                wobj = wave.open(file)
-                wtup = wobj.getparams()
-                
-                self.prop["nchannels"]    = wtup[0]
-                self.prop["sampwidth"]    = wtup[1]
-                self.prop["framerate"]    = wtup[2]
-                self.prop["nframes"]      = wtup[3]
-                self.prop["duration"]     = self.prop["nframes"] / float(self.prop["framerate"])
-                
-                fdata = wobj.readframes(self.prop["nframes"])
-                self.data = wav.bytes_to_array(self.prop, fdata)
-                
-            except wave.Error:
+                self.data, self.prop = iotools.wav.read(file, self.prop)
+            except:
                 raise
+            
         elif self.format == FLAC:
             pass
         elif self.format == MP3:
