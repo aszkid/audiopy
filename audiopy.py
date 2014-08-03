@@ -97,12 +97,6 @@ class buffer:
                         chunk[frame_i*2 + chann_i] = struct.pack(form, self.data[i][chann_i])
             wobj.writeframes(''.join(chunk))
             
-            """buff = [None]*(self.prop["nframes"]*self.prop["nchannels"])
-            for fi in xrange(0, self.prop["nframes"]):
-                for ci in xrange(0, self.prop["nchannels"]):
-                    buff[fi*2+ci] = struct.pack(form, self.data[fi][ci])
-            wobj.writeframes(''.join(buff))"""
-            
         elif self.format == FLAC:
             pass
         elif self.format == MP3:
