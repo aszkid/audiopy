@@ -1,6 +1,6 @@
 import numpy as np
 import logging
-log = logging.getLogger("ap.rtools.wav")
+log = logging.getLogger("ap.iotools.wav")
 import wave
 import struct
 

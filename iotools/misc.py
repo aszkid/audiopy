@@ -1,6 +1,6 @@
 import numpy as np
 import logging
-log = logging.getLogger("ap.rtools.wav")
+log = logging.getLogger("ap.iotools.misc")
 
 # Thanks to 'WarrenWeckesser': https://gist.github.com/WarrenWeckesser/7461781
 def bytes_to_array(par, data):

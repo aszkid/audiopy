@@ -1,7 +1,14 @@
+Jinja2==2.7.3
+MarkupSafe==0.23
+Pygments==1.6
 Reindent==0.1.1
+RunSnakeRun==2.0.4
+Sphinx==1.2.2
+SquareMap==1.0.4
 argparse==1.2.1
 backports.ssl-match-hostname==3.4.0.2
 certifi==14.05.14
+docutils==0.12
 matplotlib==1.3.1
 nose==1.3.3
 numpy==1.8.1
