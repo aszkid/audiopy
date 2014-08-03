@@ -38,10 +38,10 @@ def write(file, prop, data):
     form = '<{0}'.format(ch)
     
     for chunk_i in xrange(0, chunk_c):
-        wav_c._populate_chunk(0, chunk_s, chunk_i*chunk_s, 0, prop["nchannels"], prop, form, data, chunk)
+        wav_c._populate_chunk(0, chunk_s, chunk_i*chunk_s, 0, prop["nchannels"], form, data, chunk)
         wobj.writeframes(''.join(chunk))
     
     chunk = [None]*(rem*prop["nchannels"])
-    wav_c._populate_chunk(0, rem, chunk_c*chunk_s, 0, prop["nchannels"], prop, form, data, chunk)
+    wav_c._populate_chunk(0, rem, chunk_c*chunk_s, 0, prop["nchannels"], form, data, chunk)
     wobj.writeframes(''.join(chunk))
                 

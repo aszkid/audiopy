@@ -1,6 +1,6 @@
 import struct
 
-def _populate_chunk(int fbeg, int fend, int indexbeg, int chbeg, int chend, prop, enc, data, chunk):
+def _populate_chunk(int fbeg, int fend, int indexbeg, int chbeg, int chend, enc, data, chunk):
     cdef int chind = (chend-chbeg)
     cdef int i, fcind
     for frame_i from fbeg <= frame_i < fend:
