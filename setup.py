@@ -16,7 +16,7 @@ setup(
     license='GPLv3',
     keywords='audio synthetizer waves manipulation',
     packages=find_packages(exclude=['contrib', 'docs', 'tests*']),
-    install_requires=['matplotlib','scipy','numpy'],
+    install_requires=['matplotlib','scipy','numpy','cython'],
     cmdclass = {'build_ext' : build_ext},
     ext_modules = [
         Extension('iotools.wav_c', ['iotools/wav_c.pyx'])
