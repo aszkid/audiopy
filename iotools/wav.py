@@ -43,6 +43,8 @@ def write(file, prop, data):
         'NONE', 'not compressed')
     wobj.setparams(wtup)
     
+    # CHUNK-BASED WRITE --> good for memory. bad for cpu time.
+    """
     chunk_s = 16384
     chunk_c, rem = divmod(prop["nframes"], chunk_s)
     log.debug("writing %i chunks of %i frames + %i remaining frames", chunk_c, chunk_s, rem)
@@ -50,5 +52,8 @@ def write(file, prop, data):
     ch = 'c' if prop["sampwidth"] == 1 else 'h'
     form = '<{0}'.format(ch)
     
-    wav_c.write_chunks(chunk_c, chunk_s, rem, form, data, prop, wobj)
+    wav_c.write_chunks(chunk_c, chunk_s, rem, form, data, prop, wobj)"""
+    
+    # WHOLE-THING-BASED WRITE --> good for time. good for memory because it's already fucking allocated.
+    wobj.writeframes(data.tostring())
                 
