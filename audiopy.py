@@ -14,6 +14,7 @@ You should have received a copy of the GNU General Public License
 along with AudioPy.  If not, see <http://www.gnu.org/licenses/>."""
 
 import wave
+import struct
 import logging
 logging.basicConfig()
 log = logging.getLogger("ap")
@@ -60,6 +61,47 @@ class buffer:
     def frame_count(self, t):
         return self.prop["framerate"] * t
     
+    def write_file(self, filename):
+        try:
+            file = open(filename, 'wb')
+        except IOError:
+            raise
+        
+        if self.format == WAV:
+            
+            wobj = wave.open(file)
+            wtup = (self.prop["nchannels"], self.prop["sampwidth"],
+                self.prop["framerate"], self.prop["nframes"],
+                'NONE', 'not compressed')
+            wobj.setparams(wtup)
+            
+            log.debug("out info %s", wtup)
+            
+            chunk_s = 4096
+            real_chunk_s = chunk_s*self.prop["nchannels"]
+            chunk = [None]*(real_chunk_s)
+            chunk_c, rem = divmod(self.prop["nframes"], chunk_s)
+            log.debug("writing %i chunks of %i frames + %i remaining frames", chunk_c, chunk_s, rem)
+            
+            ch = 'u' if self.prop["sampwidth"] == 1 else 'i'
+            form = '<{0}{1}'.format(ch, self.prop["sampwidth"])
+            
+            for chunk_i in xrange(0, chunk_c):
+                for frame_i in xrange(0, chunk_s):
+                    i = chunk_i * chunk_s + frame_i
+                    for chann_i in xrange(0, self.prop["nchannels"]):
+                        chunk[frame_i*2 + chann_i] = struct.pack(form, self.data[i][chann_i])
+                wobj.writeframes(''.join(chunk))
+            # remaining frames
+            #print chunk
+            
+        elif self.format == FLAC:
+            pass
+        elif self.format == MP3:
+           pass
+        else:
+            pass
+        
     def read_file(self, filename, format=None):
         file = None
         
@@ -72,10 +114,10 @@ class buffer:
             self.format = format
         else:
             self.format = guess_format_ext(filename)
-            if self.format == None:
-                self.format = guess_format_dat(file)
-                if self.format == None:
-                    raise Exception("Could not guess file format.")
+        if self.format == None:
+            self.format = guess_format_dat(file)
+        if self.format == None:
+            raise Exception("Could not guess file format.")
                 
         log.debug("Opened file '%s', format '%i'.", filename, self.format)
         

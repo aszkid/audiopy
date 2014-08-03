@@ -14,3 +14,5 @@ t2 = buff.frame_count(10)
 p.plot(buff.data[t1:t2, 0])
 p.plot(buff.data[t1:t2, 1])
 p.savefig("{0}.png".format(time.time()))
+
+buff.write_file("tests/bach_kibbie_re.wav")
